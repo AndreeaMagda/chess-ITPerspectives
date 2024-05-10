@@ -1,0 +1,12 @@
+.piece {
+    width: 90%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.piece img {
+    max-width: 170%;
+    max-height: 170%;
+}
