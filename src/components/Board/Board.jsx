@@ -35,11 +35,17 @@ function Board() {
 
   const [selectedPiece, setSelectedPiece] = useState(null);
   const [turn, setTurn] = useState("white");
+
+
   const handleCellClick = (rowIndex, colIndex) => {
     const piece = chessBoard[rowIndex][colIndex];
     if (piece && piece.color !== turn) return;
 
     if (selectedPiece) {
+        if ((turn === 'white' && rowIndex > selectedPiece.rowIndex) ||
+            (turn === 'black' && rowIndex < selectedPiece.rowIndex)) {
+            return;
+        }
       const newBoard = [...chessBoard];
       newBoard[selectedPiece.rowIndex][selectedPiece.colIndex] = null;
       newBoard[rowIndex][colIndex] = { type: selectedPiece.type, color: turn };
