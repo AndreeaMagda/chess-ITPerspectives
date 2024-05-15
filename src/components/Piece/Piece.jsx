@@ -15,6 +15,8 @@ import blackPawnImg from '../../assets/black-pawn.png';
 
 function Piece({ type, color }) {
     
+
+    
     let imagePath;
     if(color === 'white'){
         switch(type){
@@ -39,7 +41,7 @@ function Piece({ type, color }) {
             default:
                 break;
         }
-    }else{
+    }else if(color==='black'){ 
         switch (type) {
             case 'rook':
                 imagePath = blackRookImg;
@@ -63,11 +65,12 @@ function Piece({ type, color }) {
                 break;
         }
     }
-
+   
+    
     return (
-        <div className='piece'>
-        <img src={imagePath} alt={`${color}-${type}`} />
-        </div>
+       <div className='piece'>
+    <img src={imagePath} alt={`${color}-${type}`}  />
+</div>
     );
 }
 
