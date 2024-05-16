@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Board.css";
 import Piece from "../Piece/Piece";
-import Pawn from "../Piece/Pawn";
 
 function Board() {
   const [chessBoard, setChessBoard] = useState([
@@ -42,29 +41,35 @@ function Board() {
     if (piece && piece.color !== turn) return;
 
     if (selectedPiece) {
-      if (selectedPiece.type === "pawn") {
-        if (
-          (turn === "white" && rowIndex > selectedPiece.rowIndex) ||
-          (turn === "black" && rowIndex < selectedPiece.rowIndex)
-        ) {
-          return;
-        }
+      if (
+        selectedPiece.rowIndex === rowIndex &&
+        selectedPiece.colIndex === colIndex
+      ) {
+        setSelectedPiece(null);
+        return;
+      }
 
-        const distance = Math.abs(rowIndex - selectedPiece.rowIndex);
-        if (
-          distance > 2 ||
-          (distance === 2 &&
-            ((turn === "white" && selectedPiece.rowIndex !== 6) ||
-              (turn === "black" && selectedPiece.rowIndex !== 1)))
-        ) {
-          return;
-        }
-        if (
-          colIndex !== selectedPiece.colIndex &&
-          (!piece || piece.color === turn)
-        ) {
-          return;
-        }
+      if (
+        (turn === "white" && rowIndex > selectedPiece.rowIndex) ||
+        (turn === "black" && rowIndex < selectedPiece.rowIndex)
+      ) {
+        return;
+      }
+
+      const distance = Math.abs(rowIndex - selectedPiece.rowIndex);
+      if (
+        distance > 2 ||
+        (distance === 2 &&
+          ((turn === "white" && selectedPiece.rowIndex !== 6) ||
+            (turn === "black" && selectedPiece.rowIndex !== 1)))
+      ) {
+        return;
+      }
+      if (
+        colIndex !== selectedPiece.colIndex &&
+        (!piece || piece.color === turn)
+      ) {
+        return;
       }
 
       const newBoard = [...chessBoard];
@@ -95,7 +100,6 @@ function Board() {
             moves.push({ rowIndex: rowIndex + 2 * direction, colIndex });
           }
         }
-
         setPossibleMoves(moves);
       }
     }
@@ -115,12 +119,13 @@ function Board() {
                 className={`square ${
                   (rowIndex + colIndex) % 2 === 0 ? "white" : "black"
                 } ${
+                  selectedPiece &&
                   possibleMoves.some(
-                    move =>
-                      move.rowIndex === rowIndex && move.colIndex === colIndex)
-                  
-                    ? 'possible-move'
-                    : ''
+                    (move) =>
+                      move.rowIndex === rowIndex && move.colIndex === colIndex
+                  )
+                    ? "possible-move"
+                    : ""
                 }`}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
               >
